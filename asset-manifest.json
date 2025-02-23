@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/twitch-vibe-tracker/static/css/main.3deb40b1.css",
+    "main.js": "/twitch-vibe-tracker/static/js/main.728910b2.js",
+    "static/js/453.967375eb.chunk.js": "/twitch-vibe-tracker/static/js/453.967375eb.chunk.js",
+    "index.html": "/twitch-vibe-tracker/index.html",
+    "main.3deb40b1.css.map": "/twitch-vibe-tracker/static/css/main.3deb40b1.css.map",
+    "main.728910b2.js.map": "/twitch-vibe-tracker/static/js/main.728910b2.js.map",
+    "453.967375eb.chunk.js.map": "/twitch-vibe-tracker/static/js/453.967375eb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3deb40b1.css",
+    "static/js/main.728910b2.js"
+  ]
+}
