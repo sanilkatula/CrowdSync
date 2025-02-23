@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitch Chat Vibe</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #121212; color: white; }
+        h1 { font-size: 2.5em; }
+        #vibe { font-size: 3em; margin-top: 20px; font-weight: bold; }
+        .message-container { margin-top: 30px; }
+        .message { background: #1e1e1e; padding: 10px; margin: 5px auto; width: 50%; border-radius: 5px; text-align: left; }
+        .username { font-weight: bold; color: #ffd700; }
+        .mood { float: right; }
+    </style>
+</head>
+<body>
+    <h1>🌡️ Twitch Chat Vibe</h1>
+    <div id="vibe">⚪ Waiting for messages...</div>
+
+    <div class="message-container" id="messages"></div>
+
+    <script>
+        async function updateVibe() {
+            try {
+                let response = await fetch("http://127.0.0.1:8000/vibe");
+                let data = await response.json();
+                document.getElementById("vibe").innerText = data.vibe;
+            } catch (error) {
+                console.error("Error fetching vibe:", error);
+            }
+        }
+
+        async function updateMessages() {
+            try {
+                let response = await fetch("http://127.0.0.1:8000/messages");
+                let data = await response.json();
+                let messagesDiv = document.getElementById("messages");
+                messagesDiv.innerHTML = ""; // Clear previous messages
+                
+                data.messages.forEach(msg => {
+                    let messageDiv = document.createElement("div");
+                    messageDiv.className = "message";
+                    messageDiv.innerHTML = `<span class="username">${msg.user}:</span> ${msg.message} <span class="mood">${msg.mood}</span>`;
+                    messagesDiv.appendChild(messageDiv);
+                });
+            } catch (error) {
+                console.error("Error fetching messages:", error);
+            }
+        }
+
+        setInterval(updateVibe, 5000);      // Update overall vibe every 5 sec
+        setInterval(updateMessages, 5000);  // Update messages every 5 sec
+    </script>
+</body>
+</html>
