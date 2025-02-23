@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/twitch-vibe-tracker/static/css/main.3deb40b1.css",
-    "main.js": "/twitch-vibe-tracker/static/js/main.728910b2.js",
-    "static/js/453.967375eb.chunk.js": "/twitch-vibe-tracker/static/js/453.967375eb.chunk.js",
-    "index.html": "/twitch-vibe-tracker/index.html",
-    "main.3deb40b1.css.map": "/twitch-vibe-tracker/static/css/main.3deb40b1.css.map",
-    "main.728910b2.js.map": "/twitch-vibe-tracker/static/js/main.728910b2.js.map",
-    "453.967375eb.chunk.js.map": "/twitch-vibe-tracker/static/js/453.967375eb.chunk.js.map"
+    "main.css": "/CrowdSync/static/css/main.3deb40b1.css",
+    "main.js": "/CrowdSync/static/js/main.59a7e9a4.js",
+    "static/js/453.967375eb.chunk.js": "/CrowdSync/static/js/453.967375eb.chunk.js",
+    "index.html": "/CrowdSync/index.html",
+    "main.3deb40b1.css.map": "/CrowdSync/static/css/main.3deb40b1.css.map",
+    "main.59a7e9a4.js.map": "/CrowdSync/static/js/main.59a7e9a4.js.map",
+    "453.967375eb.chunk.js.map": "/CrowdSync/static/js/453.967375eb.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3deb40b1.css",
-    "static/js/main.728910b2.js"
+    "static/js/main.59a7e9a4.js"
   ]
 }
