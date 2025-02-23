@@ -1,3 +1,4 @@
+import os
 import twitchio
 from twitchio.ext import commands
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
@@ -7,9 +8,23 @@ import asyncio
 from flask import Flask, jsonify, request
 import threading
 from flask_cors import CORS
+from dotenv import load_dotenv
 
+# Load environment variables
+load_dotenv()
+
+# Get Twitch Token from Environment Variables
+TWITCH_OAUTH_TOKEN = os.getenv("TWITCH_OAUTH_TOKEN")
+FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
+
+# Validate required secrets
+if not TWITCH_OAUTH_TOKEN:
+    raise ValueError("❌ TWITCH_OAUTH_TOKEN is missing. Set it in your .env or deployment environment.")
+
+# Initialize Flask App
 app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend communication
+CORS(app)
+app.secret_key = FLASK_SECRET_KEY
 
 # Global Variables
 current_channel = None
@@ -18,7 +33,6 @@ analyzer = SentimentIntensityAnalyzer()
 recent_sentiments = collections.deque(maxlen=20)  # Rolling average of sentiments
 recent_messages = collections.deque(maxlen=20)  # Store last 20 messages
 last_update_time = time.time()
-
 
 # Mood categories
 def get_mood(sentiment_score):
@@ -35,7 +49,6 @@ def get_mood(sentiment_score):
     else:
         return "🔥 Toxic - The chat has high levels of negativity or hostility."
 
-
 # Calculate overall room vibe
 def get_overall_vibe():
     if not recent_sentiments:
@@ -44,10 +57,9 @@ def get_overall_vibe():
     avg_sentiment = sum(recent_sentiments) / len(recent_sentiments)
     return get_mood(avg_sentiment)
 
-
 class TwitchBot(commands.Bot):
     def __init__(self, channel_name):
-        super().__init__(token="oauth:qz24c4g5i57ixlr0h9yg2kf19e61nt", prefix="!", initial_channels=[channel_name])
+        super().__init__(token=TWITCH_OAUTH_TOKEN, prefix="!", initial_channels=[channel_name])
         self.current_channel = channel_name
 
     async def event_ready(self):
@@ -71,7 +83,6 @@ class TwitchBot(commands.Bot):
     async def switch_channel(self, new_channel: str):
         await self.join_channels([new_channel])
         print(f"🔄 Switched to monitoring {new_channel}")
-
 
 # 🔹 1️⃣ Set Channel API
 @app.route("/setchannel", methods=["POST"])
@@ -104,7 +115,6 @@ def set_channel():
 def get_vibe():
     return jsonify({"vibe": get_overall_vibe(), "messages": list(recent_messages)})
 
-
 # 🔹 3️⃣ Reset Monitoring API
 @app.route("/reset", methods=["POST"])
 def reset_bot():
@@ -112,7 +122,6 @@ def reset_bot():
 
     if bot:
         loop = bot.loop
-        # Use create_task instead of blocking with future.result()
         asyncio.run_coroutine_threadsafe(bot.close(), loop)
 
         bot = None
@@ -122,16 +131,5 @@ def reset_bot():
     
     return jsonify({"error": "No bot is running"}), 400
 
-
-# Run bot in a separate thread when Flask starts
-def run_bot():
-    global bot
-    channel = input("Enter the Twitch channel you want to monitor: ")
-    bot = TwitchBot(channel)
-    bot.run()
-
-
 if __name__ == "__main__":
-    bot_thread = threading.Thread(target=run_bot, daemon=True)
-    bot_thread.start()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=True)

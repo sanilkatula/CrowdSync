@@ -1,0 +1,6 @@
+flask
+flask-cors
+twitchio
+vaderSentiment
+gunicorn
+python-dotenv
