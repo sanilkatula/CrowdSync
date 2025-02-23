@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/CrowdSync/static/css/main.3deb40b1.css",
-    "main.js": "/CrowdSync/static/js/main.59a7e9a4.js",
+    "main.js": "/CrowdSync/static/js/main.107437a6.js",
     "static/js/453.967375eb.chunk.js": "/CrowdSync/static/js/453.967375eb.chunk.js",
     "index.html": "/CrowdSync/index.html",
     "main.3deb40b1.css.map": "/CrowdSync/static/css/main.3deb40b1.css.map",
-    "main.59a7e9a4.js.map": "/CrowdSync/static/js/main.59a7e9a4.js.map",
+    "main.107437a6.js.map": "/CrowdSync/static/js/main.107437a6.js.map",
     "453.967375eb.chunk.js.map": "/CrowdSync/static/js/453.967375eb.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3deb40b1.css",
-    "static/js/main.59a7e9a4.js"
+    "static/js/main.107437a6.js"
   ]
 }
