@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Get Twitch Token from Environment Variables
+# Get Twitch Token and Flask Secret Key from Environment Variables
 TWITCH_OAUTH_TOKEN = os.getenv("TWITCH_OAUTH_TOKEN")
 FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
 
@@ -23,7 +23,7 @@ if not TWITCH_OAUTH_TOKEN:
 
 # Initialize Flask App
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["https://sanilkatula.github.io"], supports_credentials=True)
 app.secret_key = FLASK_SECRET_KEY
 
 # Global Variables
@@ -130,6 +130,11 @@ def reset_bot():
         return jsonify({"message": "Bot has been stopped. Ready for a new channel selection!"})
     
     return jsonify({"error": "No bot is running"}), 400
+
+# 🔹 4️⃣ Keep Backend Alive (Fix Lag)
+@app.route("/ping", methods=["GET"])
+def ping():
+    return "pong", 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=True)

@@ -10,6 +10,20 @@ const App = () => {
   const [messages, setMessages] = useState([]);
   const [isMonitoring, setIsMonitoring] = useState(false);
 
+  // ✅ Keep Backend Alive by Sending a Ping Every 5 Minutes
+  useEffect(() => {
+    const keepBackendAlive = () => {
+      fetch(`${API_BASE_URL}/ping`)
+        .then((res) => console.log("✅ Backend is alive:", res.status))
+        .catch((err) => console.error("⚠️ Backend ping failed:", err));
+    };
+
+    keepBackendAlive(); // Call once immediately
+    const interval = setInterval(keepBackendAlive, 300000); // Every 5 minutes (300,000ms)
+    
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
+
   // Fetch vibe and messages from Flask backend
   useEffect(() => {
     const fetchVibe = async () => {
@@ -110,10 +124,7 @@ const App = () => {
           onChange={(e) => setNewChannel(e.target.value)}
           className="channel-input"
         />
-        <button
-          onClick={updateChannel}
-          className="channel-button"
-        >
+        <button onClick={updateChannel} className="channel-button">
           Set Channel
         </button>
         {isMonitoring && (
